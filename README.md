@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# 🕵️‍♂️ TriNetra – Device-Centric Money-Trail Investigator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**One-liner:**
+Pivot investigations around the device (IMEI/SIM) and reconstruct cross-bank money trails by fusing chat, gallery, and transaction artifacts into one actionable graph. Auto-flag mule rings and generate a **court-ready case pack**.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚨 Why TriNetra?
 
-### `yarn start`
+Banks only see their own ledgers. Meanwhile:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* Launderers recycle **devices/SIMs** across many UPI IDs and bank accounts.
+* Recruitment happens via **WhatsApp/Telegram**, with **QR swaps and fake receipts**.
+* No police-side tool fuses **phone artifacts + banking flows** into a single “who-paid-whom” story.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**TriNetra fills this gap** by enabling investigators to pivot around a device and trace the entire ecosystem.
 
-### `yarn test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## ⚙️ What TriNetra Does
 
-### `yarn build`
+* **DeviceGraph (Neo4j spine):** Links device, SIM, UPI, accounts, merchants, persons.
+* **Chat & Gallery TrailBuilder:** Extract UPI links, QR codes, OCR text, SMS hints.
+* **Typology & Anomaly Detection:** Detect device mule rings, fan-in/out, split-and-settle.
+* **Ops Dashboard (Police-first):** Graph view, timeline, geo heatmap, case-pack PDF.
+* **Field “QR Sweep”:** Scan shop QR → instant Green/Amber/Red risk flag.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🛠️ Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* **Frontend:** React (Cytoscape.js, Recharts, Leaflet)
+* **Backend:** FastAPI, Python (pandas, scikit-learn)
+* **Graph DB:** Neo4j (py2neo)
+* **Storage:** Postgres (cases & audit logs)
+* **PDF Reports:** ReportLab / WeasyPrint
+* **DevOps:** Docker Compose
 
-### `yarn eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🚀 Quick Start (Demo Mode)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> ⚠️ Runs on **dummy data only** for demo purposes.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+# Clone repo
+git clone https://github.com/AkshatGarg2005/TriNetra.git
+cd TriNetra
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Install dependencies
+yarn install
 
-## Learn More
+# Run the app
+yarn start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Open `http://localhost:3000` in browser.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## 🏆 Why It Matters
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* **Device-centric lens** → bridges phone artifacts with banking flows.
+* **End-to-end:** Phone seizure → graph → field scan → **court-ready PDF.**
+* **High social impact:** Helps police dismantle laundering mule networks.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📌 Hackathon Info
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* **Project Name:** TriNetra
+* **Team Name:** TRINETRA
+* **College:** VIT Bhopal University
+* **Theme:** Money Laundering Pattern Detection (Bhopal Police Hackathon)
