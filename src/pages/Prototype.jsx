@@ -5,6 +5,7 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, 
 import CytoscapeComponent from "react-cytoscapejs";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { Link } from "react-router-dom";
 
 /* === Dummy demo data (no network calls) === */
 const DEMO_CASE = {
@@ -114,12 +115,14 @@ export default function Prototype() {
     <div className="min-h-screen bg-white text-gray-900">
       {/* HEADER */}
       <header className="border-b sticky top-0 z-40 bg-white/85 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 grid place-content-center rounded-xl border"><ShieldCheck className="h-4 w-4"/></div>
-            <span className="font-semibold tracking-tight">TRINETRA FLOW — Demo Prototype</span>
-            <Badge className="ml-2">Ideation • Dummy Data Only</Badge>
-          </div>
+  <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div className="flex items-center gap-2">
+      <div className="h-8 w-8 grid place-content-center rounded-xl border"><ShieldCheck className="h-4 w-4"/></div>
+      <Link to="/" className="font-semibold tracking-tight hover:underline">
+        TRINETRA FLOW — Demo Prototype
+      </Link>
+      <Badge className="ml-2">Ideation • Dummy Data Only</Badge>
+    </div>
           <div className="flex items-center gap-2">
             <Button size="sm" variant="secondary" onClick={handlePDF}><Download className="mr-2 h-4 w-4"/>Download Case Pack PDF</Button>
           </div>
@@ -249,19 +252,62 @@ export default function Prototype() {
                       <CytoscapeComponent
                         elements={graphElements}
                         style={{ width: "100%", height: "100%" }}
-                        layout={{ name: "cose", animate: false }}
+                        layout={{
+                           name: "cose",
+                           animate: false,
+                           padding: 40,
+                           nodeRepulsion: 8000,
+                           idealEdgeLength: 120
+                         }}
                         cy={(cy)=>{
-                          cy.fit();
+                            cy.on('layoutstop', () => cy.fit());
+                            cy.layout({ name: 'cose', animate: false, padding: 40, nodeRepulsion: 8000, idealEdgeLength: 120 }).run();
+                            // click handler unchanged
                           cy.on('tap', 'node', (e)=> {
                             const d = e.target.data();
                             if (d && d.label) alert(`${d.type?.toUpperCase()}: ${d.label}`);
                           });
                         }}
                         stylesheet={[
-                          { selector: 'node', style: { 'background-color': '#0ea5e9', label: 'data(label)', color: '#111827', 'text-valign': 'center', 'text-halign': 'center', 'font-size': 10, 'width': 28, 'height': 28 } },
-                          { selector: 'edge', style: { width: 1, 'line-color': '#93c5fd', 'target-arrow-color': '#93c5fd', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier' } },
-                          { selector: '.device', style: { 'background-color': '#34d399', 'width': 36, 'height': 36, 'font-weight': '700' } },
-                        ]}
+                        {
+                            selector: 'node',
+                            style: {
+                            shape: 'round-rectangle',
+                            'background-color': '#E5F2FF',
+                            'border-color': '#60a5fa',
+                            'border-width': 1,
+                            label: 'data(label)',
+                            color: '#111827',
+                            'font-size': 11,
+                            'text-wrap': 'wrap',
+                            'text-max-width': 100,         // wrap long labels
+                            'text-valign': 'center',
+                            'text-halign': 'center',
+                            'width': 'label',              // auto-size to label
+                            'height': 'label',
+                            'min-zoomed-font-size': 8
+                        }
+                        },
+                        {
+                          selector: '.device',
+                          style: {
+                            'background-color': '#d1fae5',
+                            'border-color': '#10b981',
+                            'font-weight': 700,
+                            'text-max-width': 160         // device label can be wider (has IMEI + newline)
+                          }
+                        },
+                        {
+                          selector: 'edge',
+                          style: {
+                            width: 1.2,
+                            'curve-style': 'bezier',
+                            'line-color': '#93c5fd',
+                            'target-arrow-color': '#93c5fd',
+                            'target-arrow-shape': 'triangle'
+                          }
+                        }
+                      ]}
                       />
                     </div>
                     <div className="text-xs text-muted-foreground mt-2">Tip: click nodes to view labels. Layout is static for demo.</div>
