@@ -1,3 +1,4 @@
+// src/pages/Landing.jsx
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -111,7 +112,10 @@ export const TabsContent = ({ value, className = "", children }) => {
   return <div className={className}>{children}</div>;
 };
 
-/* Accordion API compatible with your original usage */
+/* Accordion (fixed: items now use their value, content reads open state) */
+const AccordionCtx = createContext(null);
+const AccordionItemCtx = createContext(null);
+
 export const Accordion = ({ type = "single", collapsible = false, className = "", children }) => {
   const [open, setOpen] = useState(type === "single" ? null : []);
   const ctx = useMemo(() => ({ type, collapsible, open, setOpen }), [type, collapsible, open]);
@@ -121,30 +125,60 @@ export const Accordion = ({ type = "single", collapsible = false, className = ""
     </AccordionCtx.Provider>
   );
 };
-const AccordionCtx = createContext(null);
-export const AccordionItem = ({ value, children }) => <div data-value={value}>{children}</div>;
+
+export const AccordionItem = ({ value, children }) => {
+  return (
+    <AccordionItemCtx.Provider value={{ value }}>
+      <div data-value={value}>{children}</div>
+    </AccordionItemCtx.Provider>
+  );
+};
+
 export const AccordionTrigger = ({ children }) => {
-  const { type, collapsible, open, setOpen } = useContext(AccordionCtx);
-  const thisVal = useMemo(() => Math.random().toString(36).slice(2), []); // unique per render block
-  const isOpen = type === "single" ? open === thisVal : open.includes(thisVal);
+  const acc = useContext(AccordionCtx);
+  const item = useContext(AccordionItemCtx);
+  if (!acc || !item) return null;
+
+  const { type, collapsible, open, setOpen } = acc;
+  const { value } = item;
+
+  const isOpen = type === "single" ? open === value : Array.isArray(open) && open.includes(value);
+
   const toggle = () => {
     if (type === "single") {
-      if (collapsible && open === thisVal) setOpen(null);
-      else setOpen(thisVal);
+      if (collapsible && open === value) setOpen(null);
+      else setOpen(value);
     } else {
-      setOpen((arr) => (arr.includes(thisVal) ? arr.filter((x) => x !== thisVal) : [...arr, thisVal]));
+      setOpen((arr) =>
+        (arr || []).includes(value) ? arr.filter((x) => x !== value) : [...(arr || []), value]
+      );
     }
   };
+
   return (
-    <button onClick={toggle} className="w-full text-left p-4 flex items-center justify-between">
+    <button
+      onClick={toggle}
+      aria-expanded={isOpen}
+      className="w-full text-left p-4 flex items-center justify-between"
+    >
       <span className="font-medium">{children}</span>
       <span className={cn("transition-transform", isOpen ? "rotate-180" : "")}>▾</span>
     </button>
   );
 };
-export const AccordionContent = ({ className = "", children }) => (
-  <div className={cn("p-4 pt-0 text-sm text-muted-foreground", className)}>{children}</div>
-);
+
+export const AccordionContent = ({ className = "", children }) => {
+  const acc = useContext(AccordionCtx);
+  const item = useContext(AccordionItemCtx);
+  if (!acc || !item) return null;
+
+  const { type, open } = acc;
+  const { value } = item;
+  const isOpen = type === "single" ? open === value : Array.isArray(open) && open.includes(value);
+
+  if (!isOpen) return null;
+  return <div className={cn("p-4 pt-0 text-sm text-muted-foreground", className)}>{children}</div>;
+};
 
 /* Helpers identical to your original structure */
 const Section = ({ id, className = "", children }) => (
@@ -170,7 +204,7 @@ const FeatureCard = ({ icon: Icon, title, children }) => (
 /* =======================
    Landing Page (exact look)
    ======================= */
-const contactEmail = "team.trinetra@vitbhopal.edu.in";
+const contactEmail = "akshat.23bce10641@vitbhopal.ac.in";
 
 export default function Landing() {
   return (
