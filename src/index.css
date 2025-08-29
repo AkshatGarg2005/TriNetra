@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional: custom layer if you want */
 @layer base {
-  body {
-    @apply bg-background text-foreground;
-  }
+  html, body, #root { height: 100%; }
+  body { @apply bg-background text-foreground; }
 }
