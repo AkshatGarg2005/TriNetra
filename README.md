@@ -72,3 +72,13 @@ yarn start
 * **Team Name:** TRINETRA
 * **College:** VIT Bhopal University
 * **Theme:** Money Laundering Pattern Detection (Bhopal Police Hackathon)
+
+---
+
+## 👥👥 Collaborators
+1) https://github.com/Harshita6097
+2) https://github.com/AkshatGarg2005
+4) https://github.com/Pranav-Anshu-Pathak
+5) https://github.com/divyanshu12308
+6) https://github.com/SNEHASHAJI24
+
